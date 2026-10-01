@@ -1,0 +1,230 @@
+/* Base Reset & Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    min-height: 100vh;
+}
+
+/* Navigation Header */
+header {
+    width: 100%;
+    max-width: 650px;
+    margin-bottom: 1.5rem;
+}
+
+nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #475569;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+}
+
+nav a:hover {
+    color: #2563eb;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+nav a i {
+    font-size: 1rem;
+}
+
+/* Main Container */
+.eventCard {
+    width: 100%;
+    max-width: 650px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.eventCard h1 {
+    font-size: 1.8rem;
+    color: #1e293b;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+}
+
+/* Individual Card Styling */
+.card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+}
+
+.description {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+}
+
+.location {
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.location i {
+    color: #ef4444;
+}
+
+/* Badges Section */
+.card-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.badge-date {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.badge-capacity {
+    background-color: #f0fdf4;
+    color: #15803d;
+}
+
+/* Registration Form Section */
+.register {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.register form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.register input {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.9rem;
+    color: #1e293b;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.register input::placeholder {
+    color: #94a3b8;
+}
+
+.register input:focus {
+    background-color: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.register button {
+    width: 100%;
+    padding: 0.7rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #2563eb;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.register button:hover {
+    background-color: #1d4ed8;
+}
+
+.register button:active {
+    transform: scale(0.98);
+}
+
+/* Responsive side-by-side inputs on wider screens */
+@media (min-width: 520px) {
+    .register form {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .register input {
+        flex: 1;
+    }
+
+    .register button {
+        width: auto;
+        padding: 0.65rem 1.25rem;
+    }
+}
+
+/* Empty State Styling */
+.no-events {
+    background-color: #fff1f2;
+    border: 1px solid #fecdd3;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    color: #be123c;
+}
+
+.no-events i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.no-events p {
+    font-size: 1rem;
+    font-weight: 600;
+}

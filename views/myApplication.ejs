@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>My Applications</h1>
+    <div>
+        <ul>
+            <% applications.forEach(application => { %>
+              <li>
+                <% if (application.jobId && application.jobId.postedBy) { %>
+                  <h2>Company: <%= application.jobId?.postedBy?.fullName || 'Unknown' %></h2>
+                  <h3><%= application.jobId.jobTitle %></h3>
+                  <p><strong>Job Description:</strong> <%= application.jobId.jobDescription %></p>
+                  <p><strong>Job Location:</strong> <%= application.jobId.jobLocation %></p>
+                <% } else { %>
+                  <h2>Company: (Job no longer available)</h2>
+                  <h3>Job details unavailable</h3>
+                <% } %>
+              </li>
+            <% }) %>
+        </ul>
+    </div>
+</body>
+</html>

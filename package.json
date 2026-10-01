@@ -1,0 +1,33 @@
+{
+  "name": "codealpha_jobboard",
+  "version": "1.0.0",
+  "description": "job board paltform given by codeAlpha back-end devlopment internship task",
+  "license": "ISC",
+  "author": "Bereket Woldemariyam",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^2.11.0",
+    "connect-mongo": "^6.0.0",
+    "dotenv": "^18.0.4",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.19.0",
+    "method-override": "^3.0.0",
+    "mongodb": "^7.7.0",
+    "mongoose": "^9.10.2",
+    "morgan": "^1.12.1",
+    "multer": "^2.4.0",
+    "nodemon": "^3.1.14",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "streamifier": "^0.1.1",
+    "validator": "^13.15.35"
+  }
+}

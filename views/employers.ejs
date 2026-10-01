@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome, <%= User.fullName %></h1>
+        <nav>
+            <ul>
+                <li><a href="/employers">Dashboard</a></li>
+                <li><a href="/employers/applied-candidates">Candidates</a></li>
+                <li><a href="/">Jobs</a></li>
+                <li><a href="/register/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Employers Dashboard</h1>
+    <div>
+        <form action="/employers/jobs" method="POST">
+            <input type="text" name="jobTitle" placeholder="Job Title">
+            <input type="text" name="jobDescription" placeholder="Job Description">
+            <input type="text" name="jobLocation" placeholder="Job Location">
+            <input type="text" name="jobSalary" placeholder="Job Salary">
+            <input type="text" name="jobRequirements" placeholder="Job Requirements">
+            <button type="submit">Post Job</button>
+        </form>
+    </div>
+</body>
+</html>

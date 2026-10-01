@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Candidates</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .candidate {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .candidate h2 {
+            margin: 0 0 0.4rem 0;
+        }
+
+        .meta {
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 0.6rem;
+        }
+
+        a.btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        a.btn:hover {
+            background: #1d4ed8;
+        }
+
+        .status {
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Applied Candidates</h1>
+
+    <% if (candidates && candidates.length> 0) { %>
+        <% candidates.forEach(candidate=> { %>
+            <div class="candidate">
+                <h2>
+                    <%= candidate.userId?.fullName || 'Unknown Candidate' %>
+                </h2>
+
+                <div class="meta">
+                    <strong>Email:</strong>
+                    <%= candidate.userId?.email || 'N/A' %><br>
+                        <strong>Job:</strong>
+                            <%= candidate.jobId ? candidate.jobId.jobTitle : 'N/A' %>
+                            <br>
+                            <strong>Status:</strong> 
+                            <span class="status">
+                                <%= candidate.status %>
+                            </span><br>
+                            <strong>Applied:</strong>
+                            <%= candidate.appliedAt ? new Date(candidate.appliedAt).toLocaleDateString() : 'N/A' %>
+                </div>
+
+                    <% if (candidate.resumeId && candidate.resumeId.signedPdfUrl) { %>
+                      <a href="<%= candidate.resumeId.signedPdfUrl %>" 
+                         target="_blank" 
+                         rel="noopener noreferrer">
+                        View / Download Resume
+                      </a>
+                    <% } else { %>
+                      <p>No resume available</p>
+                    <% } %>
+            </div>
+            <% }) %>
+                <% } else { %>
+                    <p>No candidates have applied yet.</p>
+                <% } %>
+</body>
+
+</html>

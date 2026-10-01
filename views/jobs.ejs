@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Jobs</a></li>
+                <li><a href="/resume/">Resume</a></li>
+                <li><a href="/applications">My Applications</a></li>
+                <li><a href="/employers">Employers Dashboard</a></li>
+                <li><a href="/register/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h3>welcome, <%= User.fullName %></h3>
+    <h1>Jobs</h1>
+    <div class="hero-section">
+        <% jobs.forEach(job => { %>
+            <div>
+                <h2>Company: <%= job.postedBy.fullName %></h2>
+                <h3>Role: <%= job.jobTitle %></h3>
+                <p><strong>Location:</strong> <%= job.jobLocation %></p>
+                <p><strong>Salary:</strong> <%= job.jobSalary %></p>
+                <a href="/details/<%= job._id %>">View Details</a>
+            </div>
+        <% }); %>  
+    </div>
+ 
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Jobs</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Job Details</h1>
+    <div>
+        <h2>Company: <%= job.postedBy.fullName %></h2>
+        <h2>Role: <%= job.jobTitle %></h2>
+        <p><strong>Job Description:</strong> <%= job.jobDescription %></p>
+        <p><strong>Job Location:</strong> <%= job.jobLocation %></p>
+        <p><strong>Job Requirements:</strong> <%= job.jobRequirements %></p>
+        <p><strong>Salary:</strong> <%= job.jobSalary %></p>
+
+        <div>
+            <form action="/apply" method="POST">
+                <input type="hidden" name="jobId" value="<%= job._id %>">
+                <button type="submit">Apply</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

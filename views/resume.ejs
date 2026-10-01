@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome, <%= User.fullName %></h1>
+        <nav>
+            <ul>
+                <li><a href="/candidates">Dashboard</a></li>
+                <li><a href="/candidates/jobs">Jobs</a></li>
+                <li><a href="/candidates/resume">Resume</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Candidate Dashboard</h1>
+    <div>
+        <form action="/resume/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="resume" accept=".pdf,.doc,.docx">
+            <button type="submit">Upload Resume</button>
+        </form>
+</body>
+</html>
