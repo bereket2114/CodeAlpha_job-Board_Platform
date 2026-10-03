@@ -1,29 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>My Applications | JobBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --blue: #2563eb;
+            --blue2: #1d4ed8;
+            --bg: #f8fafc;
+            --card: #fff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 12px 35px rgba(15, 23, 42, .08)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text)
+        }
+
+        a {
+            color: inherit
+        }
+
+        .site-header {
+            background: var(--navy);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .12)
+        }
+
+        .navbar {
+            max-width: 1180px;
+            margin: auto;
+            min-height: 70px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px
+        }
+
+        .brand {
+            font-size: 1.35rem;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: -.03em
+        }
+
+        .brand span {
+            color: #60a5fa
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 9px 12px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: .9rem
+        }
+
+        .nav-links a:hover {
+            background: #1e293b;
+            color: #fff
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: auto;
+            padding: 42px 22px
+        }
+
+        .page-head {
+            margin-bottom: 25px
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--blue);
+            font-weight: 800;
+            font-size: .72rem;
+            margin: 0 0 8px
+        }
+
+        .page-head h1 {
+            margin: 0;
+            font-size: clamp(1.9rem, 3vw, 2.7rem);
+            letter-spacing: -.04em
+        }
+
+        .page-head p:not(.eyebrow) {
+            color: var(--muted);
+            margin: 8px 0 0
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--blue);
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 11px 16px;
+            text-decoration: none;
+            font-weight: 750;
+            cursor: pointer
+        }
+
+        .btn:hover {
+            background: var(--blue2)
+        }
+
+        .btn.secondary {
+            background: #eaf2ff;
+            color: #1d4ed8
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 13px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            outline: none
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px #dbeafe
+        }
+
+        label {
+            display: block;
+            font-size: .86rem;
+            font-weight: 700;
+            margin-bottom: 7px
+        }
+
+        .field {
+            margin-bottom: 17px
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        footer {
+            padding: 28px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        @media(max-width:760px) {
+            .navbar {
+                align-items: flex-start;
+                padding: 14px 16px;
+                flex-direction: column
+            }
+
+            .nav-links {
+                width: 100%
+            }
+
+            .container {
+                padding: 30px 16px
+            }
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 18px
+        }
+
+        .app {
+            padding: 24px
+        }
+
+        .app h2 {
+            margin: 3px 0 5px;
+            font-size: 1.15rem
+        }
+
+        .app h3 {
+            margin: 0 0 15px;
+            color: var(--blue);
+            font-size: 1rem
+        }
+
+        .status {
+            display: inline-flex;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-weight: 800;
+            font-size: .78rem;
+            text-transform: capitalize
+        }
+    </style>
 </head>
+
 <body>
-    
-    <h1>My Applications</h1>
-    <div>
-        <ul>
-            <% applications.forEach(application => { %>
-              <li>
-                <% if (application.jobId && application.jobId.postedBy) { %>
-                  <h2>Company: <%= application.jobId?.postedBy?.fullName || 'Unknown' %></h2>
-                  <h3><%= application.jobId.jobTitle %></h3>
-                  <p><strong>Job Description:</strong> <%= application.jobId.jobDescription %></p>
-                  <p><strong>Job Location:</strong> <%= application.jobId.jobLocation %></p>
-                <% } else { %>
-                  <h2>Company: (Job no longer available)</h2>
-                  <h3>Job details unavailable</h3>
-                <% } %>
-              </li>
-            <% }) %>
-        </ul>
-    </div>
+    <header class="site-header">
+        <nav class="navbar"><a class="brand" href="/">Job<span>Board</span></a>
+            <ul class="nav-links">
+                <li><a href="/">Find jobs</a></li>
+                <li><a href="/resume/"> <i class="fa-solid fa-upload"></i> Resume</a></li>
+                <li><a href="/register/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <div class="page-head">
+            <p class="eyebrow">Candidate workspace</p>
+            <h1>My applications</h1>
+            <p>Track the jobs you have applied for and monitor their current status.</p>
+        </div>
+        <section class="apps-grid">
+            <% applications.forEach(application=> { %><article class="card app">
+                    <% if (application.jobId && application.jobId.postedBy) { %>
+                        <p class="eyebrow">Application</p>
+                        <h2>
+                            <%= application.jobId?.postedBy?.fullName || 'Unknown' %>
+                        </h2>
+                        <h3>
+                            <%= application.jobId.jobTitle %>
+                        </h3>
+                        <p class="muted"><i class="fa-solid fa-location-dot"></i>
+                            <%= application.jobId.jobLocation %>
+                        </p><span class="status">
+                            <%= application.status || 'pending' %>
+                        </span>
+                        <% } else { %>
+                            <p class="eyebrow">Unavailable</p>
+                            <h2>Job no longer available</h2>
+                            <p class="muted">The original job details could not be loaded.</p>
+                            <% } %>
+                </article>
+                <% }) %>
+        </section>
+    </main>
+    <footer>JobBoard · Keep moving toward your next opportunity.</footer>
 </body>
+
 </html>

@@ -1,35 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>
+        <%= job.jobTitle %> | JobBoard
+    </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --blue: #2563eb;
+            --blue2: #1d4ed8;
+            --bg: #f8fafc;
+            --card: #fff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 12px 35px rgba(15, 23, 42, .08)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text)
+        }
+
+        a {
+            color: inherit
+        }
+
+        .site-header {
+            background: var(--navy);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .12)
+        }
+
+        .navbar {
+            max-width: 1180px;
+            margin: auto;
+            min-height: 70px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px
+        }
+
+        .brand {
+            font-size: 1.35rem;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: -.03em
+        }
+
+        .brand span {
+            color: #60a5fa
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 9px 12px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: .9rem
+        }
+
+        .nav-links a:hover {
+            background: #1e293b;
+            color: #fff
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: auto;
+            padding: 42px 22px
+        }
+
+        .page-head {
+            margin-bottom: 25px
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--blue);
+            font-weight: 800;
+            font-size: .72rem;
+            margin: 0 0 8px
+        }
+
+        .page-head h1 {
+            margin: 0;
+            font-size: clamp(1.9rem, 3vw, 2.7rem);
+            letter-spacing: -.04em
+        }
+
+        .page-head p:not(.eyebrow) {
+            color: var(--muted);
+            margin: 8px 0 0
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--blue);
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 11px 16px;
+            text-decoration: none;
+            font-weight: 750;
+            cursor: pointer
+        }
+
+        .btn:hover {
+            background: var(--blue2)
+        }
+
+        .btn.secondary {
+            background: #eaf2ff;
+            color: #1d4ed8
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 13px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            outline: none
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px #dbeafe
+        }
+
+        label {
+            display: block;
+            font-size: .86rem;
+            font-weight: 700;
+            margin-bottom: 7px
+        }
+
+        .field {
+            margin-bottom: 17px
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        footer {
+            padding: 28px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        @media(max-width:760px) {
+            .navbar {
+                align-items: flex-start;
+                padding: 14px 16px;
+                flex-direction: column
+            }
+
+            .nav-links {
+                width: 100%
+            }
+
+            .container {
+                padding: 30px 16px
+            }
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 330px;
+            gap: 24px;
+            align-items: start
+        }
+
+        .detail-main {
+            padding: 30px
+        }
+
+        .detail-side {
+            padding: 24px;
+            position: sticky;
+            top: 95px
+        }
+
+        .detail-main h1 {
+            margin: 5px 0 8px;
+            font-size: 2.2rem
+        }
+
+        .info-row {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted)
+        }
+
+        .info-row i {
+            width: 20px;
+            color: var(--blue)
+        }
+
+        .detail-section {
+            border-top: 1px solid var(--border);
+            padding-top: 22px;
+            margin-top: 24px
+        }
+
+        .apply {
+            width: 100%
+        }
+
+        @media(max-width:800px) {
+            .detail-grid {
+                grid-template-columns: 1fr
+            }
+
+            .detail-side {
+                position: static
+            }
+        }
+
+        /* Destructive action */
+        .delete-job { margin-top:18px; padding-top:18px; border-top:1px solid var(--border); }
+        .delete-btn { width:100%; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 15px; border:1px solid #fecaca; border-radius:10px; background:#fff1f2; color:#dc2626; font-size:.86rem; font-weight:750; cursor:pointer; transition:.2s; }
+        .delete-btn:hover { background:#dc2626; border-color:#dc2626; color:#fff; transform:translateY(-1px); }
+        .delete-btn:active { transform:translateY(0); }
+    </style>
 </head>
+
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Jobs</a></li>
-                <li><a href="/logout">Logout</a></li>
+    <header class="site-header">
+        <nav class="navbar"><a class="brand" href="/">Job<span>Board</span></a>
+            <ul class="nav-links">
+                <li><a href="/">Find jobs</a></li>
+                <li><a href="/resume/"> <i class="fa-solid fa-upload"></i> Resume</a></li>
+                <% if(User){ %>
+                    <li><a href="/register/logout">Logout</a></li>
+                    <% } %>
             </ul>
         </nav>
     </header>
-    <h1>Job Details</h1>
-    <div>
-        <h2>Company: <%= job.postedBy.fullName %></h2>
-        <h2>Role: <%= job.jobTitle %></h2>
-        <p><strong>Job Description:</strong> <%= job.jobDescription %></p>
-        <p><strong>Job Location:</strong> <%= job.jobLocation %></p>
-        <p><strong>Job Requirements:</strong> <%= job.jobRequirements %></p>
-        <p><strong>Salary:</strong> <%= job.jobSalary %></p>
-
-        <div>
-            <form action="/apply" method="POST">
-                <input type="hidden" name="jobId" value="<%= job._id %>">
-                <button type="submit">Apply</button>
-            </form>
+    <main class="container">
+        <div class="page-head">
+            <p class="eyebrow">Job opportunity</p>
+            <p>Review the role, requirements and compensation before submitting your application.</p>
         </div>
-    </div>
+                
+        <% if(typeof errorMessage !== 'undefined') { %>
+            <div class="error-message">
+                <p style="color:red; margin-top: 20px;"> <%= errorMessage %> </p>
+            </div>
+        <% } %>
 
+        <div class="detail-grid">
+            <article class="card detail-main">
+                <div class="company">
+                    <i class="fa-regular fa-building"></i>
+                    <%= job.postedBy.fullName %>
+                </div>
+                <h1>
+                    <%= job.jobTitle %>
+                </h1>
+                <div class="info-row"><i class="fa-solid fa-location-dot"></i><span>
+                        <%= job.jobLocation %>
+                    </span></div>
+                <div class="info-row"><i class="fa-solid fa-money-bill-wave"></i><span>
+                        <%= job.jobSalary %>
+                    </span></div>
+                <section class="detail-section">
+                    <h3>Job description</h3>
+                    <p class="muted">
+                        <%= job.jobDescription %>
+                    </p>
+                </section>
+                <section class="detail-section">
+                    <h3>Requirements</h3>
+                    <p class="muted">
+                        <%= job.jobRequirements %>
+                    </p>
+                </section>
+            </article>
+            <aside class="card detail-side">
+                <p class="eyebrow">Ready to apply?</p>
+                <h2>Take the next step</h2>
+                <p class="muted">Submit your application and let the employer review your profile.</p>
+                <form action="/applications/apply" method="POST"><input type="hidden" name="jobId"
+                        value="<%= job._id %>"><button class="btn apply" type="submit"><i
+                            class="fa-solid fa-paper-plane"></i> Apply now</button></form>
+            </aside>
+        </div>
+    </main>
 </body>
+
 </html>

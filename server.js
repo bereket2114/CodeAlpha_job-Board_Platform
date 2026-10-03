@@ -12,9 +12,9 @@ const methodOverride = require('method-override')
 const connectDB = require('./config/DB_Connection')
 const employers = require('./route/employersRoute');
 const resume = require('./route/resume-Route');
-const candidates = require('./route/candidateRoute');
+const jobs = require('./route/jobRoute');
 const register = require('./route/userRoutes');
-
+const applications = require('./route/applicationRoutes');
 
 // Passport config
 require('./config/passportConfig')(passport) 
@@ -55,7 +55,8 @@ app.use(methodOverride("_method"))
 
 
 // Routes
-app.use('/', candidates);
+app.use('/', jobs);
+app.use('/applications', applications)
 app.use('/employers', employers);
 app.use('/resume', resume);
 app.use('/register', register);

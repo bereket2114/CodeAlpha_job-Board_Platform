@@ -1,32 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Employer Dashboard | JobBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --blue: #2563eb;
+            --blue2: #1d4ed8;
+            --bg: #f8fafc;
+            --card: #fff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 12px 35px rgba(15, 23, 42, .08)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text)
+        }
+
+        a {
+            color: inherit
+        }
+
+        .site-header {
+            background: var(--navy);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .12)
+        }
+
+        .navbar {
+            max-width: 1180px;
+            margin: auto;
+            min-height: 70px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px
+        }
+
+        .brand {
+            font-size: 1.35rem;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: -.03em
+        }
+
+        .brand span {
+            color: #60a5fa
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 9px 12px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: .9rem
+        }
+
+        .nav-links a:hover {
+            background: #1e293b;
+            color: #fff
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: auto;
+            padding: 42px 22px
+        }
+
+        .page-head {
+            margin-bottom: 25px
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--blue);
+            font-weight: 800;
+            font-size: .72rem;
+            margin: 0 0 8px
+        }
+
+        .page-head h1 {
+            margin: 0;
+            font-size: clamp(1.9rem, 3vw, 2.7rem);
+            letter-spacing: -.04em
+        }
+
+        .page-head p:not(.eyebrow) {
+            color: var(--muted);
+            margin: 8px 0 0
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--blue);
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 11px 16px;
+            text-decoration: none;
+            font-weight: 750;
+            cursor: pointer
+        }
+
+        .btn:hover {
+            background: var(--blue2)
+        }
+
+        .btn.secondary {
+            background: #eaf2ff;
+            color: #1d4ed8
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 13px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            outline: none
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px #dbeafe
+        }
+
+        label {
+            display: block;
+            font-size: .86rem;
+            font-weight: 700;
+            margin-bottom: 7px
+        }
+
+        .field {
+            margin-bottom: 17px
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        footer {
+            padding: 28px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        @media(max-width:760px) {
+            .navbar {
+                align-items: flex-start;
+                padding: 14px 16px;
+                flex-direction: column
+            }
+
+            .nav-links {
+                width: 100%
+            }
+
+            .container {
+                padding: 30px 16px
+            }
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1.35fr;
+            gap: 24px
+        }
+
+        .intro-card,
+        .form-card {
+            padding: 30px
+        }
+
+        .intro-card {
+            background: linear-gradient(145deg, #eff6ff, #fff)
+        }
+
+        .intro-card h2 {
+            font-size: 2rem
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px
+        }
+
+        textarea {
+            min-height: 115px;
+            resize: vertical
+        }
+
+        .full {
+            grid-column: 1/-1
+        }
+
+        @media(max-width:850px) {
+            .dashboard {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:550px) {
+            .form-grid {
+                grid-template-columns: 1fr
+            }
+
+            .full {
+                grid-column: auto
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <header>
-        <h1>Welcome, <%= User.fullName %></h1>
-        <nav>
-            <ul>
-                <li><a href="/employers">Dashboard</a></li>
+    <header class="site-header">
+        <nav class="navbar"><a class="brand" href="/">Job<span>Board</span></a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
                 <li><a href="/employers/applied-candidates">Candidates</a></li>
-                <li><a href="/">Jobs</a></li>
                 <li><a href="/register/logout">Logout</a></li>
             </ul>
         </nav>
     </header>
-    <h1>Employers Dashboard</h1>
-    <div>
-        <form action="/employers/jobs" method="POST">
-            <input type="text" name="jobTitle" placeholder="Job Title">
-            <input type="text" name="jobDescription" placeholder="Job Description">
-            <input type="text" name="jobLocation" placeholder="Job Location">
-            <input type="text" name="jobSalary" placeholder="Job Salary">
-            <input type="text" name="jobRequirements" placeholder="Job Requirements">
-            <button type="submit">Post Job</button>
-        </form>
-    </div>
+    <main class="container">
+        <div class="page-head">
+            <p class="eyebrow">Employer workspace</p>
+            <h1>Welcome, <%= User.fullName %>
+            </h1>
+            <p>Post opportunities and manage the candidates who apply.</p>
+        </div>
+        <section class="dashboard">
+            <div class="card intro-card"><i class="fa-solid fa-bullhorn" style="font-size:2rem;color:#2563eb"></i>
+                <h2>Build your hiring pipeline.</h2>
+                <p class="muted">Create clear listings with the role, location, salary and requirements candidates need.
+                </p><a class="btn secondary" href="/employers/applied-candidates">Review candidates</a>
+            </div>
+            <div class="card form-card">
+                <p class="eyebrow">Create listing</p>
+                <h2>Post a new job</h2>
+                <form action="/employers/jobs" method="POST">
+                    <div class="form-grid">
+                        <div><label>Job title</label><input name="jobTitle" placeholder="e.g. Full-Stack Developer"
+                                required></div>
+                        <div><label>Location</label><input name="jobLocation" placeholder="e.g. Addis Ababa / Remote"
+                                required></div>
+                        <div><label>Salary</label><input name="jobSalary" placeholder="e.g. 25,000 ETB/month"></div>
+                        <div><label>Requirements</label><input name="jobRequirements"
+                                placeholder="e.g. Node.js, MongoDB"></div>
+                        <div class="full"><label>Description</label><textarea name="jobDescription"
+                                placeholder="Describe the role, responsibilities and expectations..."
+                                required></textarea></div>
+                        <div class="full"><button class="btn" type="submit"><i class="fa-solid fa-plus"></i> Publish
+                                job</button></div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>JobBoard · Employer hiring workspace.</footer>
 </body>
+
 </html>

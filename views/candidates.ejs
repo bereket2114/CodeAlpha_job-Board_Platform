@@ -3,92 +3,379 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Applied Candidates</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Applicants | JobBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
     <style>
+        :root {
+            --navy: #0f172a;
+            --blue: #2563eb;
+            --blue2: #1d4ed8;
+            --bg: #f8fafc;
+            --card: #fff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 12px 35px rgba(15, 23, 42, .08)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
         body {
-            font-family: system-ui, sans-serif;
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text)
+        }
+
+        a {
+            color: inherit
+        }
+
+        .site-header {
+            background: var(--navy);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .12)
+        }
+
+        .navbar {
+            max-width: 1180px;
+            margin: auto;
+            min-height: 70px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px
+        }
+
+        .brand {
+            font-size: 1.35rem;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: -.03em
+        }
+
+        .brand span {
+            color: #60a5fa
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 9px 12px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: .9rem
+        }
+
+        .nav-links a:hover {
+            background: #1e293b;
+            color: #fff
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: auto;
+            padding: 42px 22px
+        }
+
+        .page-head {
+            margin-bottom: 25px
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--blue);
+            font-weight: 800;
+            font-size: .72rem;
+            margin: 0 0 8px
+        }
+
+        .page-head h1 {
+            margin: 0;
+            font-size: clamp(1.9rem, 3vw, 2.7rem);
+            letter-spacing: -.04em
+        }
+
+        .page-head p:not(.eyebrow) {
+            color: var(--muted);
+            margin: 8px 0 0
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--blue);
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 11px 16px;
+            text-decoration: none;
+            font-weight: 750;
+            cursor: pointer
+        }
+
+        .btn:hover {
+            background: var(--blue2)
+        }
+
+        .btn.secondary {
+            background: #eaf2ff;
+            color: #1d4ed8
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 13px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            outline: none
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px #dbeafe
+        }
+
+        label {
+            display: block;
+            font-size: .86rem;
+            font-weight: 700;
+            margin-bottom: 7px
+        }
+
+        .field {
+            margin-bottom: 17px
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        footer {
+            padding: 28px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        @media(max-width:760px) {
+            .navbar {
+                align-items: flex-start;
+                padding: 14px 16px;
+                flex-direction: column
+            }
+
+            .nav-links {
+                width: 100%
+            }
+
+            .container {
+                padding: 30px 16px
+            }
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 22px
+        }
+
+        .filter-bar a {
+            padding: 9px 13px;
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 9px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: .88rem;
+            font-weight: 700
+        }
+
+        .candidate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 18px
         }
 
         .candidate {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1.2rem;
-            margin-bottom: 1rem;
+            padding: 24px
+        }
+
+        .candidate-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px
         }
 
         .candidate h2 {
-            margin: 0 0 0.4rem 0;
+            margin: 0;
+            font-size: 1.2rem
         }
 
-        .meta {
-            color: #555;
-            font-size: 0.95rem;
-            margin-bottom: 0.6rem;
+        .candidate-meta {
+            display: grid;
+            gap: 10px;
+            margin: 18px 0;
+            color: var(--muted);
+            font-size: .9rem
         }
 
-        a.btn {
-            display: inline-block;
-            background: #2563eb;
-            color: white;
-            padding: 0.4rem 0.9rem;
-            border-radius: 6px;
+        .candidate-meta span {
+            display: flex;
+            gap: 9px
+        }
+
+        .candidate-meta i {
+            width: 18px;
+            color: var(--blue)
+        }
+
+        .status-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 14px
+        }
+
+        .status-dropdown {
+            width: auto;
+            min-width: 145px
+        }
+
+        .resume {
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            color: var(--blue);
+            font-weight: 700;
             text-decoration: none;
-            font-size: 0.9rem;
+            margin-top: 14px
         }
 
-        a.btn:hover {
-            background: #1d4ed8;
+        .empty {
+            padding: 45px;
+            text-align: center
         }
 
-        .status {
-            font-weight: 600;
-            text-transform: capitalize;
+        .empty i {
+            font-size: 2rem;
+            color: #94a3b8
         }
     </style>
 </head>
 
 <body>
-    <h1>Applied Candidates</h1>
+    <header class="site-header">
+        <nav class="navbar"><a class="brand" href="/">Job<span>Board</span></a>
+            <ul class="nav-links">
+                <li><a href="/employers">Dashboard</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/register/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <div class="page-head">
+            <p class="eyebrow">Hiring pipeline</p>
+            <h1>Applied candidates</h1>
+            <p>Review applicants and move each application through your hiring process.</p>
+        </div>
+        <div class="filter-bar"><a href="/employers/applied-candidates">All applications</a><a
+                href="/employers/applied-candidates/job/?status='shortlisted'">Shortlisted</a><a
+                href="/employers/applied-candidates/job/?status='interviewed'">Interviewed</a><a
+                href="/employers/applied-candidates/job/?status='hired'">Hired</a><a
+                href="/employers/applied-candidates/job/?status='rejected'">Rejected</a></div>
+        <% if (candidates && candidates.length> 0) { %><section class="candidate-grid">
+                <% candidates.forEach(candidate=> { %><article class="card candidate">
+                        <div class="candidate-head">
+                            <div>
+                                <p class="eyebrow">Candidate</p>
+                                <h2>
+                                    <%= candidate.userId?.fullName || 'Unknown Candidate' %>
+                                </h2>
+                            </div><i class="fa-solid fa-user-tie" style="color:#2563eb;font-size:1.4rem"></i>
+                        </div>
+                        <div class="candidate-meta"><span><i class="fa-solid fa-envelope"></i>
+                                <%= candidate.userId?.email || 'N/A' %>
+                            </span><span><i class="fa-solid fa-briefcase"></i>
+                                <%= candidate.jobId ? candidate.jobId.jobTitle : 'N/A' %>
+                            </span><span><i class="fa-regular fa-calendar"></i>Applied <%= candidate.appliedAt ? new
+                                    Date(candidate.appliedAt).toLocaleDateString() : 'N/A' %></span></div>
+                        <div class="status-row"><select name="status" data-id="<%= candidate._id %>"
+                                class="status-dropdown">
+                                <option value="">Select status</option>
+                                <option value="shortlisted" <%=candidate.status==='shortlisted' ? 'selected' : '' %>
+                                    >Shortlisted</option>
+                                <option value="interviewed" <%=candidate.status==='interviewed' ? 'selected' : '' %>
+                                    >Interviewed</option>
+                                <option value="hired" <%=candidate.status==='hired' ? 'selected' : '' %>>Hired</option>
+                                <option value="rejected" <%=candidate.status==='rejected' ? 'selected' : '' %>>Rejected
+                                </option>
+                            </select><span class="muted">Current: <strong>
+                                    <%= candidate.status || 'pending' %>
+                                </strong></span></div>
+                        <% if (candidate.resumeId && candidate.resumeId.signedPdfUrl) { %><a class="resume"
+                                href="<%= candidate.resumeId.signedPdfUrl %>" target="_blank"
+                                rel="noopener noreferrer"><i class="fa-regular fa-file-pdf"></i> View resume</a>
+                            <% } else { %><span class="muted" style="display:block;margin-top:12px">No resume
+                                    available</span>
+                            <% } %>
 
-    <% if (candidates && candidates.length> 0) { %>
-        <% candidates.forEach(candidate=> { %>
-            <div class="candidate">
-                <h2>
-                    <%= candidate.userId?.fullName || 'Unknown Candidate' %>
-                </h2>
+                            <div>
+                                <form action="/employers/jobs/delete/<%= candidate.jobId?._id %>?_method=DELETE" method="POST"  
+                                    onsubmit="return confirm('Are you sure you want to delete this job?');">
+                                    <button class="btn secondary" type="submit">
+                                        <i class="fa-solid fa-trash"></i>  Delete Job
+                                    </button>
+                                </form>
+                            </div>
 
-                <div class="meta">
-                    <strong>Email:</strong>
-                    <%= candidate.userId?.email || 'N/A' %><br>
-                        <strong>Job:</strong>
-                            <%= candidate.jobId ? candidate.jobId.jobTitle : 'N/A' %>
-                            <br>
-                            <strong>Status:</strong> 
-                            <span class="status">
-                                <%= candidate.status %>
-                            </span><br>
-                            <strong>Applied:</strong>
-                            <%= candidate.appliedAt ? new Date(candidate.appliedAt).toLocaleDateString() : 'N/A' %>
+                    </article>
+                    <% }) %>
+            </section>
+            <% } else { %>
+                <div class="card empty"><i class="fa-regular fa-folder-open"></i>
+                    <h2>No applications yet</h2>
+                    <p class="muted">New candidate applications will appear here.</p>
                 </div>
-
-                    <% if (candidate.resumeId && candidate.resumeId.signedPdfUrl) { %>
-                      <a href="<%= candidate.resumeId.signedPdfUrl %>" 
-                         target="_blank" 
-                         rel="noopener noreferrer">
-                        View / Download Resume
-                      </a>
-                    <% } else { %>
-                      <p>No resume available</p>
-                    <% } %>
-            </div>
-            <% }) %>
-                <% } else { %>
-                    <p>No candidates have applied yet.</p>
                 <% } %>
+    </main>
+    <script src="/JS/main.js"></script>
 </body>
 
 </html>

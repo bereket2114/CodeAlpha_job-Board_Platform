@@ -57,6 +57,7 @@ module.exports = {
     
             streamifier.createReadStream(req.file.buffer).pipe(stream);
           });
+
     
           // 3. Generate a signed URL (valid for 1 hour – adjust as needed)
           const signedPdfUrl = cloudinary.url(result.public_id, {
@@ -66,7 +67,14 @@ module.exports = {
             secure: true,
             expires_at: Math.floor(Date.now() / 1000) + 3600 // 1 hour
           });
-    
+
+        // Check if the user already has a resume and delete the old one if it exists  
+          const existingResume = await resume.findById(req.user._id);
+             if (existingResume) {
+                // Delete the old file from Cloudinary
+                await cloudinary.uploader.destroy(existingResume.cloudinaryId, { resource_type: 'raw' });
+             }
+
           // 4. Save to database
           const resumeEntry = await resume.create({
             pdfUrl: signedPdfUrl,           // Store the signed URL

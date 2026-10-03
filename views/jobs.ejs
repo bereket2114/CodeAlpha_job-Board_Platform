@@ -1,35 +1,568 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Find Jobs | JobBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --blue: #2563eb;
+            --blue2: #1d4ed8;
+            --bg: #f8fafc;
+            --card: #fff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 12px 35px rgba(15, 23, 42, .08)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text)
+        }
+
+        a {
+            color: inherit
+        }
+
+        .site-header {
+            background: var(--navy);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .12)
+        }
+
+        .navbar {
+            max-width: 1180px;
+            margin: auto;
+            min-height: 70px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px
+        }
+
+        .brand {
+            font-size: 1.35rem;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: -.03em
+        }
+
+        .brand span {
+            color: #60a5fa
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 9px 12px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: .9rem
+        }
+
+        .nav-links a:hover {
+            background: #1e293b;
+            color: #fff
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: auto;
+            padding: 42px 22px
+        }
+
+        .page-head {
+            margin-bottom: 25px
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--blue);
+            font-weight: 800;
+            font-size: .72rem;
+            margin: 0 0 8px
+        }
+
+        .page-head h1 {
+            margin: 0;
+            font-size: clamp(1.9rem, 3vw, 2.7rem);
+            letter-spacing: -.04em
+        }
+
+        .page-head p:not(.eyebrow) {
+            color: var(--muted);
+            margin: 8px 0 0
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--blue);
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 11px 16px;
+            text-decoration: none;
+            font-weight: 750;
+            cursor: pointer
+        }
+
+        .btn:hover {
+            background: var(--blue2)
+        }
+
+        .btn.secondary {
+            background: #eaf2ff;
+            color: #1d4ed8
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 13px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            outline: none
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px #dbeafe
+        }
+
+        label {
+            display: block;
+            font-size: .86rem;
+            font-weight: 700;
+            margin-bottom: 7px
+        }
+
+        .field {
+            margin-bottom: 17px
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        footer {
+            padding: 28px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        @media(max-width:760px) {
+            .navbar {
+                align-items: flex-start;
+                padding: 14px 16px;
+                flex-direction: column
+            }
+
+            .nav-links {
+                width: 100%
+            }
+
+            .container {
+                padding: 30px 16px
+            }
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            color: #fff;
+            border-radius: 24px;
+            padding: 42px;
+            margin-bottom: 34px;
+            box-shadow: var(--shadow)
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3.3rem);
+            margin: 0 0 10px;
+            letter-spacing: -.05em
+        }
+
+        .hero p {
+            color: #cbd5e1;
+            max-width: 650px
+        }
+
+        .hero .eyebrow {
+            color: #93c5fd
+        }
+
+        .search {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr auto;
+            gap: 10px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 14px;
+            max-width: 850px
+        }
+
+        .search input {
+            border: 0;
+            background: #f8fafc
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px
+        }
+
+        .job-card {
+            padding: 23px;
+            display: flex;
+            flex-direction: column;
+            min-height: 235px
+        }
+
+        .job-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px
+        }
+
+        .company {
+            font-size: .82rem;
+            color: var(--muted);
+            font-weight: 700
+        }
+
+        .job-card h2 {
+            font-size: 1.15rem;
+            margin: 7px 0
+        }
+
+        .job-meta {
+            display: grid;
+            gap: 8px;
+            color: var(--muted);
+            font-size: .9rem;
+            margin: 12px 0 20px
+        }
+
+        .job-card .btn {
+            margin-top: auto;
+            width: max-content
+        }
+
+        @media(max-width:650px) {
+            .search {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* JobBoard marketplace customization */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at 88% 15%, rgba(96, 165, 250, .24), transparent 30%), linear-gradient(135deg, #0b1220, #172554 58%, #1d4ed8);
+            border-radius: 26px;
+            padding: 48px;
+            margin-bottom: 38px;
+            box-shadow: 0 22px 55px rgba(15, 23, 42, .18)
+        }
+
+        .hero h1 {
+            max-width: 720px;
+            font-size: clamp(2.15rem, 5vw, 3.65rem);
+            line-height: 1.04;
+            margin: 0 0 15px;
+            letter-spacing: -.055em
+        }
+
+        .hero p:not(.eyebrow) {
+            color: #dbeafe;
+            max-width: 680px;
+            line-height: 1.65;
+            margin-bottom: 28px
+        }
+
+        .hero .eyebrow {
+            color: #93c5fd
+        }
+
+        .search {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(180px, .8fr) auto;
+            gap: 9px;
+            background: #fff;
+            padding: 9px;
+            border-radius: 15px;
+            max-width: 920px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .16)
+        }
+
+        .search input {
+            border: 0;
+            background: #f8fafc;
+            min-height: 46px
+        }
+
+        .search .btn {
+            min-height: 46px;
+            padding-inline: 22px
+        }
+
+        .jobs-toolbar {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 18px
+        }
+
+        .jobs-count {
+            color: var(--muted);
+            font-size: .9rem;
+            margin: 0
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px
+        }
+
+        .job-card {
+            position: relative;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            min-height: 270px;
+            transition: .2s
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+            border-color: #bfdbfe;
+            box-shadow: 0 18px 42px rgba(15, 23, 42, .12)
+        }
+
+        .job-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px
+        }
+
+        .company {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: .82rem;
+            color: var(--muted);
+            font-weight: 750
+        }
+
+        .job-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 42px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: var(--blue)
+        }
+
+        .job-card h2 {
+            font-size: 1.18rem;
+            line-height: 1.3;
+            margin: 10px 0 0;
+            letter-spacing: -.02em
+        }
+
+        .job-meta {
+            display: grid;
+            gap: 11px;
+            color: var(--muted);
+            font-size: .9rem;
+            margin: 20px 0 22px
+        }
+
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 9px
+        }
+
+        .job-meta i {
+            width: 17px;
+            color: #3b82f6
+        }
+
+        .job-card .btn {
+            margin-top: auto;
+            width: 100%
+        }
+
+        .empty-jobs {
+            grid-column: 1/-1;
+            padding: 55px 25px;
+            text-align: center
+        }
+
+        .empty-icon {
+            width: 58px;
+            height: 58px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 14px;
+            border-radius: 16px;
+            background: #eff6ff;
+            color: var(--blue);
+            font-size: 1.4rem
+        }
+
+        @media(max-width:900px) {
+            .jobs-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+        }
+
+        @media(max-width:650px) {
+            .hero {
+                padding: 32px 22px
+            }
+
+            .search {
+                grid-template-columns: 1fr
+            }
+
+            .jobs-grid {
+                grid-template-columns: 1fr
+            }
+
+            .jobs-toolbar {
+                align-items: flex-start;
+                flex-direction: column
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Jobs</a></li>
-                <li><a href="/resume/">Resume</a></li>
-                <li><a href="/applications">My Applications</a></li>
-                <li><a href="/employers">Employers Dashboard</a></li>
-                <li><a href="/register/logout">Logout</a></li>
+    <header class="site-header">
+        <nav class="navbar"><a class="brand" href="/">Job<span>Board</span></a>
+            <ul class="nav-links">
+                <% if(User && User.role==="candidate" ){ %>
+                    <li><a href="/resume/"> <i class="fa-solid fa-upload"></i> Resume</a></li>
+                    <li><a href="/applications">My Applications</a></li>
+                    <% } %>
+                        <% if(User && User.role==="employer" ){ %>
+                            <li><a href="/employers">Employer Dashboard</a></li>
+                            <% } %>
+                                <% if(User){ %>
+                                    <li><a href="/register/logout">Logout</a></li>
+                                    <% } else { %>
+                                        <li><a href="/register/login">Login</a></li>
+                                        <li><a href="/register/register">Register</a></li>
+                                        <% } %>
             </ul>
         </nav>
     </header>
-    <h3>welcome, <%= User.fullName %></h3>
-    <h1>Jobs</h1>
-    <div class="hero-section">
-        <% jobs.forEach(job => { %>
-            <div>
-                <h2>Company: <%= job.postedBy.fullName %></h2>
-                <h3>Role: <%= job.jobTitle %></h3>
-                <p><strong>Location:</strong> <%= job.jobLocation %></p>
-                <p><strong>Salary:</strong> <%= job.jobSalary %></p>
-                <a href="/details/<%= job._id %>">View Details</a>
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">OPPORTUNITY STARTS HERE</p>
+            <h1>Find the right job.<br>Build your next chapter.</h1>
+            <p>Discover roles from employers, compare opportunities, and apply with your profile and resume.</p>
+            <form class="search" action="/search" method="GET"><input name="q"
+                    placeholder="Search by job title, skill, or keyword"><input name="location"
+                    placeholder="Location"><button class="btn" type="submit"><i
+                        class="fa-solid fa-magnifying-glass"></i> Search</button></form>
+        </section>
+        <div class="jobs-toolbar">
+            <div class="page-head" style="margin-bottom:0;">
+                <p class="eyebrow">Latest opportunities</p>
+                <h1>Explore open positions</h1>
+                <p>Find a role that matches your skills, location, and career goals.</p>
             </div>
-        <% }); %>  
-    </div>
- 
+            <p class="jobs-count"><i class="fa-solid fa-briefcase"></i>
+                <%= jobs.length %> position<%= jobs.length===1 ? '' : 's' %> available
+            </p>
+        </div>
+
+        <section class="jobs-grid">
+            <% if(jobs.length> 0) { %>
+                <% jobs.forEach(job=> { %>
+                    <article class="card job-card">
+                        <div class="job-top">
+                            <div>
+                                <div class="company"><i class="fa-regular fa-building"></i>
+                                    <%= job.postedBy.fullName %>
+                                </div>
+                                <h2>
+                                    <%= job.jobTitle %>
+                                </h2>
+                            </div>
+                            <div class="job-icon"><i class="fa-solid fa-briefcase"></i></div>
+                        </div>
+                        <div class="job-meta">
+                            <span><i class="fa-solid fa-location-dot"></i>
+                                <%= job.jobLocation %>
+                            </span>
+                            <span><i class="fa-solid fa-money-bill-wave"></i>
+                                <%= job.jobSalary %>
+                            </span>
+                        </div>
+                        <a class="btn secondary" href="/details/<%= job._id %>">View opportunity <i
+                                class="fa-solid fa-arrow-right"></i></a>
+                    </article>
+                    <% }); %>
+                        <% } else { %>
+                            <div class="card empty-jobs">
+                                <div class="empty-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                <h2>No jobs found</h2>
+                                <p class="muted">There are no matching opportunities right now. Try another search.</p>
+                            </div>
+                            <% } %>
+        </section>
+    </main>
+    <footer>JobBoard · Connecting candidates with employers and opportunities.</footer>
 </body>
+
 </html>

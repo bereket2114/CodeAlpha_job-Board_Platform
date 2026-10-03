@@ -63,6 +63,63 @@ module.exports = {
     },
 
 
+    jobStatus: async (req, res) => {
+        try {
+          // 1. Clean the status query parameter (removes quotes like %27)
+          let status = req.query.status ? req.query.status.replace(/['"]/g, '').trim() : null;
+      
+          // 2. Find jobs created by the logged-in employer
+          const myJobs = await employersSchema.find({ postedBy: req.user._id }).select('_id');
+          const myJobIds = myJobs.map(job => job._id);
+      
+          // 3. Build query filter (restrict to employer's jobs + optional status)
+          const filter = { jobId: { $in: myJobIds } };
+          const allowedStatuses = ['applied', 'shortlisted', 'interviewed', 'hired', 'rejected'];
+      
+          if (status && allowedStatuses.includes(status)) {
+            filter.status = status;
+          }
+      
+          // 4. Query database with case-sensitive 'jobId'
+          const candidates = await candidateSchema
+            .find(filter)
+            .populate('userId', 'fullName email')
+            .populate('resumeId')
+            .populate('jobId', 'jobTitle')
+            .sort({ appliedAt: 'desc' })
+            .lean();
+      
+          // 5. Generate Cloudinary signed URLs (if applicable)
+          const candidatesWithSignedUrls = candidates.map(candidate => {
+            if (candidate.resumeId && candidate.resumeId.cloudinaryId) {
+              candidate.resumeId.signedPdfUrl = cloudinary.url(candidate.resumeId.cloudinaryId, {
+                resource_type: 'raw',
+                type: 'upload',
+                sign_url: true,
+                secure: true,
+                expires_at: Math.floor(Date.now() / 1000) + 3600
+              });
+            }
+            return candidate;
+          });
+      
+          // 6. Pass 'candidates' variable so candidates.ejs renders without errors
+          return res.render('candidates', { 
+            candidates: candidatesWithSignedUrls, 
+            User: req.user 
+          });
+      
+        } catch (err) {
+          console.error('Failed to fetch candidate status:', err);
+          return res.status(500).json({
+            success: false,
+            message: 'Failed to fetch candidate status.',
+            error: err.message
+          });
+        }
+    },
+
+
     postJobs: async (req, res) => {
         try {
             const { jobTitle, jobDescription, jobRequirements, jobSalary, jobLocation } = req.body;  
@@ -86,5 +143,23 @@ module.exports = {
                 error: error.message
             });
         }
+    },
+
+    deleteJob: async (req, res) => {
+        try {
+            const jobId = req.params.id;
+            const deletedJob = await employersSchema.findByIdAndDelete( jobId );
+
+            return res.redirect("/employers/applied-candidates");
+
+        } catch (error) {
+            console.error("Error caught in deleteJob catch block:");
+            return res.status(500).json({
+                success: false,
+                message: "Failed to delete job.",
+                error: error.message
+            });
+        }
     }
+
 }
