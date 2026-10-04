@@ -1,7 +1,248 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Sign in | JobBoard</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"><style>
-:root{--navy:#0f172a;--blue:#2563eb;--bg:#f1f5f9;--text:#172033;--muted:#64748b;--border:#e2e8f0}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:linear-gradient(145deg,#eff6ff,#f8fafc);color:var(--text);min-height:100vh}.auth-header{height:76px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border)}.brand{font-weight:900;font-size:1.4rem;text-decoration:none;color:var(--navy)}.brand span{color:var(--blue)}.auth-header p{color:var(--muted);font-size:.9rem}.auth-header a:last-child{color:var(--blue);font-weight:800;text-decoration:none}.auth-main{min-height:calc(100vh - 130px);display:grid;place-items:center;padding:40px 18px}.auth-card{width:min(470px,100%);background:#fff;border:1px solid var(--border);border-radius:22px;padding:34px;box-shadow:0 18px 50px rgba(15,23,42,.09)}.card-icon{width:48px;height:48px;display:grid;place-items:center;background:#dbeafe;color:var(--blue);border-radius:13px}.eyebrow{text-transform:uppercase;letter-spacing:.12em;color:var(--blue);font-weight:800;font-size:.72rem;margin:20px 0 7px}.auth-card h1{margin:0;font-size:2rem;letter-spacing:-.04em}.intro{color:var(--muted);line-height:1.6}.field{margin:17px 0}.field-label{display:flex;justify-content:space-between}.field-label a{font-size:.8rem;color:var(--blue);text-decoration:none}.field label{display:block;font-size:.85rem;font-weight:750;margin-bottom:7px}.field input,.field select{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;font:inherit}.password-field{position:relative}.password-field input{padding-right:45px}.password-toggle{position:absolute;right:5px;top:5px;border:0;background:transparent;padding:9px;color:var(--muted);cursor:pointer}.submit-button{width:100%;border:0;border-radius:10px;padding:13px;background:var(--blue);color:#fff;font-weight:800;font-size:.95rem;cursor:pointer}.alert{padding:11px 13px;background:#fef2f2;color:#b91c1c;border-radius:9px;margin:12px 0;font-size:.88rem}.mobile-switch{text-align:center;color:var(--muted);font-size:.88rem}.mobile-switch a{color:var(--blue);font-weight:800;text-decoration:none}footer{text-align:center;color:var(--muted);padding:20px;font-size:.82rem}
-</style></head><body>
-<header class="auth-header"><a class="brand" href="/">Job<span>Board</span></a><p>New to JobBoard? <a href="/register/signup">Create account</a></p></header><main class="auth-main"><section class="auth-card"><div class="card-icon"><i class="fa-solid fa-arrow-right-to-bracket"></i></div><p class="eyebrow">Welcome back</p><h1>Sign in to JobBoard</h1><p class="intro">Access your personalized job search, applications, resume, or employer workspace.</p>
-<% if (locals.messages.errors) { %><% messages.errors.forEach(el=> { %><div class="alert"><i class="fa-solid fa-circle-exclamation"></i> <%= el.msg %></div><% }) %><% } %><% if (locals.messages.info) { %><% messages.info.forEach(el=> { %><div class="alert"><%= el.msg %></div><% }) %><% } %>
-<form action="/register/login" method="POST"><div class="field"><label for="email">Email address</label><input id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required></div><div class="field"><div class="field-label"><label for="password">Password</label><a href="/forgot-password">Forgot password?</a></div><div class="password-field"><input id="password" type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required><button type="button" class="password-toggle" aria-label="Show password" aria-controls="password"><i class="fa-solid fa-eye"></i></button></div></div><button class="submit-button" type="submit">Sign in <i class="fa-solid fa-arrow-right"></i></button></form><p class="mobile-switch">Don't have an account? <a href="/register/signup">Create one</a></p></section></main><footer>JobBoard · Connecting people with opportunities.</footer><script src="/password-visibility.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Sign in | JobBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --blue: #2563eb;
+            --bg: #f1f5f9;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #e2e8f0
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, sans-serif;
+            background: linear-gradient(145deg, #eff6ff, #f8fafc);
+            color: var(--text);
+            min-height: 100vh
+        }
+
+        .auth-header {
+            height: 76px;
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .brand {
+            font-weight: 900;
+            font-size: 1.4rem;
+            text-decoration: none;
+            color: var(--navy)
+        }
+
+        .brand span {
+            color: var(--blue)
+        }
+
+        .auth-header p {
+            color: var(--muted);
+            font-size: .9rem
+        }
+
+        .auth-header a:last-child {
+            color: var(--blue);
+            font-weight: 800;
+            text-decoration: none
+        }
+
+        .auth-main {
+            min-height: calc(100vh - 130px);
+            display: grid;
+            place-items: center;
+            padding: 40px 18px
+        }
+
+        .auth-card {
+            width: min(470px, 100%);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 34px;
+            box-shadow: 0 18px 50px rgba(15, 23, 42, .09)
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            background: #dbeafe;
+            color: var(--blue);
+            border-radius: 13px
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--blue);
+            font-weight: 800;
+            font-size: .72rem;
+            margin: 20px 0 7px
+        }
+
+        .auth-card h1 {
+            margin: 0;
+            font-size: 2rem;
+            letter-spacing: -.04em
+        }
+
+        .intro {
+            color: var(--muted);
+            line-height: 1.6
+        }
+
+        .field {
+            margin: 17px 0
+        }
+
+        .field-label {
+            display: flex;
+            justify-content: space-between
+        }
+
+        .field-label a {
+            font-size: .8rem;
+            color: var(--blue);
+            text-decoration: none
+        }
+
+        .field label {
+            display: block;
+            font-size: .85rem;
+            font-weight: 750;
+            margin-bottom: 7px
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font: inherit
+        }
+
+        .password-field {
+            position: relative
+        }
+
+        .password-field input {
+            padding-right: 45px
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            border: 0;
+            background: transparent;
+            padding: 9px;
+            color: var(--muted);
+            cursor: pointer
+        }
+
+        .submit-button {
+            width: 100%;
+            border: 0;
+            border-radius: 10px;
+            padding: 13px;
+            background: var(--blue);
+            color: #fff;
+            font-weight: 800;
+            font-size: .95rem;
+            cursor: pointer
+        }
+
+        .alert {
+            padding: 11px 13px;
+            background: #fef2f2;
+            color: #b91c1c;
+            border-radius: 9px;
+            margin: 12px 0;
+            font-size: .88rem
+        }
+
+        .mobile-switch {
+            text-align: center;
+            color: var(--muted);
+            font-size: .88rem
+        }
+
+        .mobile-switch a {
+            color: var(--blue);
+            font-weight: 800;
+            text-decoration: none
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 20px;
+            font-size: .82rem
+        }
+    </style>
+</head>
+
+<body>
+    <header class="auth-header"><a class="brand" href="/">Job<span>Board</span></a>
+        <p>New to JobBoard? <a href="/register/signup">Create account</a></p>
+    </header>
+    <main class="auth-main">
+        <section class="auth-card">
+            <div class="card-icon"><i class="fa-solid fa-arrow-right-to-bracket"></i></div>
+            <p class="eyebrow">Welcome back</p>
+            <h1>Sign in to JobBoard</h1>
+            <p class="intro">Access your personalized job search, applications, resume, or employer workspace.</p>
+            <% if (locals.messages.errors) { %>
+                <% messages.errors.forEach(el=> { %><div class="alert"><i class="fa-solid fa-circle-exclamation"></i>
+                        <%= el.msg %>
+                    </div>
+                    <% }) %>
+                        <% } %>
+                            <% if (locals.messages.info) { %>
+                                <% messages.info.forEach(el=> { %><div class="alert">
+                                        <%= el.msg %>
+                                    </div>
+                                    <% }) %>
+                                        <% } %>
+                                            <form action="/register/login" method="POST">
+                                                <div class="field"><label for="email">Email address</label><input
+                                                        id="email" type="email" name="email"
+                                                        placeholder="you@example.com" autocomplete="email" required>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="field-label"><label for="password">Password</label><a
+                                                            href="/forgot-password">Forgot password?</a></div>
+                                                    <div class="password-field"><input id="password" type="password"
+                                                            name="password" placeholder="Enter your password"
+                                                            autocomplete="current-password" required><button
+                                                            type="button" class="password-toggle"
+                                                            aria-label="Show password" aria-controls="password"><i
+                                                                class="fa-solid fa-eye"></i></button></div>
+                                                </div><button class="submit-button" type="submit">Sign in <i
+                                                        class="fa-solid fa-arrow-right"></i></button>
+                                            </form>
+                                            <p class="mobile-switch">Don't have an account? <a
+                                                    href="/register/signup">Create one</a></p>
+        </section>
+    </main>
+    <footer>JobBoard · Connecting people with opportunities.</footer>
+    <script src="/password-visibility.js"></script>
+</body>
+
+</html>
