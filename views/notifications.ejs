@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | JobBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --blue: #2563eb;
+            --blue2: #1d4ed8;
+            --bg: #f8fafc;
+            --card: #fff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --unread: #eff6ff;
+            --shadow: 0 12px 35px rgba(15, 23, 42, .08);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        a { color: inherit; }
+
+        .site-header {
+            background: var(--navy);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .12);
+        }
+
+        .navbar {
+            max-width: 1180px;
+            margin: auto;
+            min-height: 70px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 1.35rem;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: -.03em;
+        }
+
+        .brand span { color: #60a5fa; }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 9px 12px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: .9rem;
+        }
+
+        .nav-links a:hover {
+            background: #1e293b;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: auto;
+            padding: 42px 22px;
+        }
+
+        .page-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--blue);
+            font-weight: 800;
+            font-size: .72rem;
+            margin: 0 0 8px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(1.9rem, 3vw, 2.7rem);
+            letter-spacing: -.04em;
+        }
+
+        .page-head p:not(.eyebrow) {
+            color: var(--muted);
+            margin: 8px 0 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--blue);
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 11px 16px;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .btn:hover { background: var(--blue2); }
+
+        .notifications {
+            display: grid;
+            gap: 12px;
+        }
+
+        .notification {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--card);
+            box-shadow: var(--shadow);
+            padding: 19px 20px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 14px;
+            align-items: start;
+            transition: .2s ease;
+        }
+
+        .notification.unread {
+            background: var(--unread);
+            border-color: #bfdbfe;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: #dbeafe;
+            color: var(--blue);
+        }
+
+        .notification h2 {
+            margin: 0 0 5px;
+            font-size: 1rem;
+        }
+
+        .notification p {
+            margin: 0 0 7px;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .meta {
+            color: #94a3b8;
+            font-size: .78rem;
+        }
+
+        .read-btn {
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--muted);
+            border-radius: 9px;
+            padding: 8px 10px;
+            cursor: pointer;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .read-btn:hover { color: var(--blue); border-color: #bfdbfe; }
+
+        .empty {
+            text-align: center;
+            padding: 55px 20px;
+            border: 1px dashed var(--border);
+            border-radius: 18px;
+            background: var(--card);
+            color: var(--muted);
+        }
+
+        .empty i { font-size: 2rem; margin-bottom: 10px; }
+
+        @media(max-width: 760px) {
+            .navbar {
+                align-items: flex-start;
+                padding: 14px 16px;
+                flex-direction: column;
+            }
+
+            .nav-links { width: 100%; }
+            .container { padding: 30px 16px; }
+            .page-head { align-items: flex-start; flex-direction: column; }
+            .notification { grid-template-columns: auto 1fr; }
+            .read-btn { grid-column: 2; justify-self: start; }
+        }
+    </style>
+</head>
+
+<body>
+<header class="site-header">
+    <nav class="navbar">
+        <a class="brand" href="/">Job<span>Board</span></a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <% if (User.role === 'candidate') { %>
+                <li><a href="/applications">My Applications</a></li>
+            <% } %>
+            <% if (User.role === 'employer') { %>
+                <li><a href="/employers">Dashboard</a></li>
+            <% } %>
+            <li><a href="/notifications"><i class="fa-regular fa-bell"></i> Notifications</a></li>
+            <li><a href="/register/logout">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+    <div class="page-head">
+        <div>
+            <p class="eyebrow">Your activity</p>
+            <h1>Notifications</h1>
+            <p>Stay up to date with applications and hiring decisions.</p>
+        </div>
+        <% if (unreadCount > 0) { %>
+            <button class="btn" id="mark-all"><i class="fa-solid fa-check-double"></i> Mark all as read</button>
+        <% } %>
+    </div>
+
+    <section class="notifications">
+        <% if (notifications.length > 0) { %>
+            <% notifications.forEach(notification => { %>
+                <article class="notification <%= notification.isRead ? '' : 'unread' %>" data-id="<%= notification._id %>">
+                    <div class="icon">
+                        <i class="fa-solid <%= notification.type === 'new_application' ? 'fa-user-plus' : 'fa-rotate' %>"></i>
+                    </div>
+                    <div>
+                        <h2><%= notification.title %></h2>
+                        <p><%= notification.message %></p>
+                        <div class="meta">
+                            <%= new Date(notification.createdAt).toLocaleString() %>
+                        </div>
+                    </div>
+                    <% if (!notification.isRead) { %>
+                        <button class="read-btn" data-read-id="<%= notification._id %>">Mark read</button>
+                    <% } %>
+                </article>
+            <% }) %>
+        <% } else { %>
+            <div class="empty">
+                <i class="fa-regular fa-bell-slash"></i>
+                <h2>No notifications yet</h2>
+                <p>New application activity and status updates will appear here.</p>
+            </div>
+        <% } %>
+    </section>
+</main>
+
+<script>
+    async function markNotificationAsRead(id, card) {
+        const response = await fetch(`/notifications/${id}/read`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || 'Unable to update notification.');
+        }
+
+        card.classList.remove('unread');
+        const button = card.querySelector('[data-read-id]');
+        if (button) button.remove();
+    }
+
+    document.querySelectorAll('[data-read-id]').forEach(button => {
+        button.addEventListener('click', async () => {
+            const card = button.closest('.notification');
+            try {
+                await markNotificationAsRead(button.dataset.readId, card);
+            } catch (error) {
+                console.error(error);
+                alert('Could not mark this notification as read.');
+            }
+        });
+    });
+
+    const markAllButton = document.getElementById('mark-all');
+    if (markAllButton) {
+        markAllButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/notifications/read-all', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || 'Unable to update notifications.');
+                }
+                document.querySelectorAll('.notification.unread').forEach(card => {
+                    card.classList.remove('unread');
+                    const button = card.querySelector('[data-read-id]');
+                    if (button) button.remove();
+                });
+                markAllButton.remove();
+            } catch (error) {
+                console.error(error);
+                alert('Could not mark all notifications as read.');
+            }
+        });
+    }
+</script>
+</body>
+</html>

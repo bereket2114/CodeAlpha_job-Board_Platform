@@ -1,6 +1,7 @@
 const candidateSchema = require('../model/candidateSchema');
 const employerSchema = require('../model/employersSchema');
 const resume = require('../model/resumeSchema');
+const { createNotification } = require('../services/notificationService');
 
 module.exports = {
     getJobs: async (req, res) => {
@@ -45,10 +46,24 @@ module.exports = {
     applyForJob: async (req, res) => {
         try {
 
+            if (req.user.role !== 'candidate') {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Only candidates can apply for jobs.'
+                });
+            }
+
             const userId = req.user._id;
-            const {jobId} = req.body;
+            const { jobId } = req.body;
 
             const job = await employerSchema.findById(jobId).populate('postedBy');
+
+            if (!job) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Job not found.'
+                }); 
+            }
         
         // Check if the user has uploaded a resume before applying
             const userResume = await resume.findOne({ userId });
@@ -66,13 +81,30 @@ module.exports = {
                     {errorMessage: "You have already applied for this job.", job, User: req.user});
             }
     
-            await candidateSchema.create({ 
+            const application = await candidateSchema.create({
                 jobId,
                 userId,
                 resumeId: userResume._id,
             });
 
-            return res.status(201).redirect('/');  
+            // Notify the employer that a new candidate has applied.
+            if (job.postedBy?._id) {
+                try {
+                    await createNotification({
+                        recipient: job.postedBy._id,
+                        sender: userId,
+                        type: 'new_application',
+                        title: 'New job application',
+                        message: `${req.user.fullName} applied for your ${job.jobTitle} position.`,
+                        jobId: job._id,
+                        applicationId: application._id
+                    });
+                } catch (notificationError) {
+                    console.error('Application was saved, but employer notification failed:', notificationError);
+                }
+            }
+
+            return res.status(201).redirect('/');
 
         } catch (error) {
             console.error("Error submitting application:", error);
@@ -158,27 +190,87 @@ module.exports = {
         }
     },
 
-    updateCandidateStatus: async(req,res)=> {
-        try{
-            const { candidateId} = req.params;
-            const { status } = req.body
+    updateCandidateStatus: async (req, res) => {
+        try {
+            const { candidateId } = req.params;
+            const { status } = req.body;
+            const allowedStatuses = ['applied', 'shortlisted', 'interviewed', 'hired', 'rejected'];
 
-            const updatedCandidate = await candidateSchema.findByIdAndUpdate(candidateId, { status }, {new:true, runValidators:true});
-            if(!updatedCandidate){
+            if (!allowedStatuses.includes(status)) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Invalid application status.'
+                });
+            }
+
+            // Load the application with its job owner so we can enforce authorization.
+            const application = await candidateSchema
+                .findById(candidateId)
+                .populate({
+                    path: 'jobId',
+                    select: 'jobTitle postedBy',
+                    populate: { path: 'postedBy', select: 'fullName' }
+                })
+                .populate('userId', 'fullName');
+
+            if (!application) {
                 return res.status(404).json({
                     success: false,
-                    message: "Candidate not found.",
-                    error: err.message
-                })
+                    message: 'Application not found.'
+                });
             }
-            return res.status(200).redirect('/employers')
-        } catch(err){
-            console.log(err)
+
+            if (!application.jobId || !application.jobId.postedBy) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'The job attached to this application is no longer available.'
+                });
+            }
+
+            // Only the employer who owns the job can change this application.
+            if (String(application.jobId.postedBy._id) !== String(req.user._id)) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'You are not authorized to update this application.'
+                });
+            }
+
+            const previousStatus = application.status;
+            application.status = status;
+            await application.save();
+
+            // Notify the candidate when the employer changes the status.
+            if (previousStatus !== status && application.userId?._id) {
+                try {
+                    await createNotification({
+                        recipient: application.userId._id,
+                        sender: req.user._id,
+                        type: 'application_status',
+                        title: 'Application status updated',
+                        message: `Your application for ${application.jobId.jobTitle} is now ${status}.`,
+                        jobId: application.jobId._id,
+                        applicationId: application._id
+                    });
+                } catch (notificationError) {
+                    console.error('Application status was updated, but candidate notification failed:', notificationError);
+                }
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: 'Application status updated successfully.',
+                application: {
+                    id: application._id,
+                    status: application.status
+                }
+            });
+        } catch (err) {
+            console.error('Error updating candidate status:', err);
             return res.status(500).json({
-                success: false, 
-                message: "Failed to update candidate status.",
+                success: false,
+                message: 'Failed to update candidate status.',
                 error: err.message
-            })
+            });
         }
     }
 }

@@ -69,7 +69,7 @@ module.exports = {
           });
 
         // Check if the user already has a resume and delete the old one if it exists  
-          const existingResume = await resume.findById(req.user._id);
+          const existingResume = await resume.findOne({ userId: req.user._id });
              if (existingResume) {
                 // Delete the old file from Cloudinary
                 await cloudinary.uploader.destroy(existingResume.cloudinaryId, { resource_type: 'raw' });

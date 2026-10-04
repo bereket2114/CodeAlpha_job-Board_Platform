@@ -278,13 +278,14 @@
         <nav class="navbar"><a class="brand" href="/">Job<span>Board</span></a>
             <ul class="nav-links">
                 <li><a href="/">Find jobs</a></li>
-            <% if(User && User.role === 'candidate'){ %>
-                <li><a href="/resume/"> <i class="fa-solid fa-upload"></i> Resume</a></li>
-
-            <%  }  %>
+                <% if(User && User.role==="candidate" ){ %>
+                    <li><a href="/resume/"> <i class="fa-solid fa-upload"></i> Resume</a></li>
+                    <li><a href="/applications">My Applications</a></li>
+                <% } %>
                 <% if(User){ %>
                     <li><a href="/register/logout">Logout</a></li>
                     <% } %>
+                            <%- include('partials/notification-nav') %>
             </ul>
         </nav>
     </header>
@@ -328,21 +329,14 @@
                     </p>
                 </section>
             </article>
-        <%    if(User && User.role === 'candidate'){ %>
-                <aside class="card detail-side">
-                    <h2>Take the next step</h2>
-                    <p class="eyebrow">Ready to apply?</p>
-                    <p class="muted">Submit your application and let the employer review your profile.</p>
-                    <form action="/applications/apply" method="POST"><input type="hidden" name="jobId"
-                        value="<%= job._id %>">
-                        <button class="btn apply" type="submit"><i
-                            class="fa-solid fa-paper-plane"></i> Apply now
-                        </button>
-                    </form>
-                </aside>
-
-         <%   }  %>
-
+            <aside class="card detail-side">
+                <p class="eyebrow">Ready to apply?</p>
+                <h2>Take the next step</h2>
+                <p class="muted">Submit your application and let the employer review your profile.</p>
+                <form action="/applications/apply" method="POST"><input type="hidden" name="jobId"
+                        value="<%= job._id %>"><button class="btn apply" type="submit"><i
+                            class="fa-solid fa-paper-plane"></i> Apply now</button></form>
+            </aside>
         </div>
     </main>
 </body>

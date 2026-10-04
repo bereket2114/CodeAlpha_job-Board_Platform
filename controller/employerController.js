@@ -7,7 +7,7 @@ module.exports = {
 
         try {
             const userId = req.user._id;
-            const employers = (await employersSchema.find({ userId }));
+            const employers = await employersSchema.find({ postedBy: userId }).sort({ createdAt: -1 }).lean();
             return res.render("employers.ejs", { employers , User: req.user });
         } catch (error) {
             console.error("Error caught in getEmployers catch block:");
@@ -50,7 +50,8 @@ module.exports = {
           });
       
           return res.render('candidates', {
-            candidates: candidatesWithSignedUrls
+            candidates: candidatesWithSignedUrls,
+            User: req.user
           });
       
         } catch (error) {
@@ -122,7 +123,14 @@ module.exports = {
 
     postJobs: async (req, res) => {
         try {
-            const { jobTitle, jobDescription, jobRequirements, jobSalary, jobLocation } = req.body;  
+            if (req.user.role !== 'employer') {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Only employers can post jobs.'
+                });
+            }
+
+            const { jobTitle, jobDescription, jobRequirements, jobSalary, jobLocation } = req.body;
 
             await employersSchema.create({
                   jobTitle,

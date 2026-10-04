@@ -15,6 +15,8 @@ const resume = require('./route/resume-Route');
 const jobs = require('./route/jobRoute');
 const register = require('./route/userRoutes');
 const applications = require('./route/applicationRoutes');
+const notifications = require('./route/notificationRoutes');
+const notificationLocals = require('./middleware/notificationLocals');
 
 // Passport config
 require('./config/passportConfig')(passport) 
@@ -48,6 +50,9 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
+// Make the unread notification count available to every EJS view.
+app.use(notificationLocals)
+
 app.use(flash())
 
 // Method override middleware
@@ -60,6 +65,7 @@ app.use('/applications', applications)
 app.use('/employers', employers);
 app.use('/resume', resume);
 app.use('/register', register);
+app.use('/notifications', notifications);
 
 
 // Start the server

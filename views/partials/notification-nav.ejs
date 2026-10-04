@@ -1,0 +1,15 @@
+<% if (User) { %>
+<li>
+    <a href="/notifications" class="notification-link" aria-label="Notifications"
+        style="display:inline-flex;align-items:center;gap:7px;">
+        <i class="fa-regular fa-bell"></i>
+        Notifications
+        <% if (unreadNotificationCount > 0) { %>
+            <span class="notification-badge"
+                style="display:inline-flex;min-width:19px;height:19px;padding:0 5px;align-items:center;justify-content:center;border-radius:999px;background:#ef4444;color:#fff;font-size:.68rem;font-weight:900;line-height:1;">
+                <%= unreadNotificationCount > 99 ? '99+' : unreadNotificationCount %>
+            </span>
+        <% } %>
+    </a>
+</li>
+<% } %>
