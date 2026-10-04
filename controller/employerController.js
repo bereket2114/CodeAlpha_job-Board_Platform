@@ -145,21 +145,4 @@ module.exports = {
         }
     },
 
-    deleteJob: async (req, res) => {
-        try {
-            const jobId = req.params.id;
-            const deletedJob = await employersSchema.findByIdAndDelete( jobId );
-
-            return res.redirect("/employers/applied-candidates");
-
-        } catch (error) {
-            console.error("Error caught in deleteJob catch block:");
-            return res.status(500).json({
-                success: false,
-                message: "Failed to delete job.",
-                error: error.message
-            });
-        }
-    }
-
 }

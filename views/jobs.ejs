@@ -492,16 +492,18 @@
                 <% if(User && User.role==="candidate" ){ %>
                     <li><a href="/resume/"> <i class="fa-solid fa-upload"></i> Resume</a></li>
                     <li><a href="/applications">My Applications</a></li>
-                    <% } %>
-                        <% if(User && User.role==="employer" ){ %>
-                            <li><a href="/employers">Employer Dashboard</a></li>
-                            <% } %>
-                                <% if(User){ %>
-                                    <li><a href="/register/logout">Logout</a></li>
-                                    <% } else { %>
-                                        <li><a href="/register/login">Login</a></li>
-                                        <li><a href="/register/register">Register</a></li>
-                                        <% } %>
+                <% } %>
+
+                <% if(User && User.role==="employer" ){ %>
+                    <li><a href="/employers">Employer Dashboard</a></li>
+                <% } %>
+
+                <% if(User){ %>
+                        <li><a href="/register/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/register/login">Login</a></li>
+                    <li><a href="/register/register">Register</a></li>
+                <% } %>
             </ul>
         </nav>
     </header>
@@ -550,16 +552,19 @@
                             </span>
                         </div>
                         <a class="btn secondary" href="/details/<%= job._id %>">View opportunity <i
-                                class="fa-solid fa-arrow-right"></i></a>
+                                class="fa-solid fa-arrow-right"></i>
+                        </a>
+                                
                     </article>
+
                     <% }); %>
-                        <% } else { %>
+                    <% } else { %>
                             <div class="card empty-jobs">
                                 <div class="empty-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
                                 <h2>No jobs found</h2>
                                 <p class="muted">There are no matching opportunities right now. Try another search.</p>
                             </div>
-                            <% } %>
+                    <% } %>
         </section>
     </main>
     <footer>JobBoard · Connecting candidates with employers and opportunities.</footer>

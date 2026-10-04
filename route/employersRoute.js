@@ -8,6 +8,6 @@ router.get('/', ensureAuthenticated, employerController.getEmployersDashboard);
 router.get('/applied-candidates', ensureAuthenticated, employerController.getAppliedCandidates);
 router.get('/applied-candidates/job', ensureAuthenticated, employerController.jobStatus);
 router.post('/jobs', ensureAuthenticated, employerController.postJobs);
-router.delete('/jobs/delete/:jobId', ensureAuthenticated,  employerController.deleteJob);
+
 
 module.exports = router; 
